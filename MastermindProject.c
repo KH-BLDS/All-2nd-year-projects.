@@ -9,8 +9,8 @@
 
     // Enum representing different colors..
 
-enum color_t{RED, GREEN, BLUE, YELLOW, BLACK, WHITE, GRAY, PURPLE};
-const char*colors[] = { "RED", "GREEN", "BLUE", "YELLOW", "BLACK","WHITE", "GRAY", "PURPLE"};
+enum color_t{RED, GREEN, BLUE, YELLOW, BLACK, WHITE, PURPLE, CYAN};
+const char*colors[] = { "\033[1;31m RED", "\033[1;32m GREEN", "\033[1;34m BLUE", "\033[1;33m YELLOW", "\033[1;30m BLACK","\033[1;37m WHITE", "\033[1;35m PURPLE", "\033[1;36m CYAN"};
 
     // Type definition for the game board..
 
@@ -57,9 +57,11 @@ void generate_hidden_combination(enum color_t board[]) {
 
     // Manual input for interactive game purposes..
     printf("\n\t++ The 1st player's part (codebreaker) ..\n\n");
-    printf("\n\t\t\t---------- *** The liste of numbers & colors *** ----------\n\n\t\t\t\t|0: RED.\t\t\t|1: GREEN.\n\
-    \t\t\t\t|2: BLUE.\t\t\t|3: YELLOW.\n\t\t\t\t|4: BLACK.\t\t\t|5: WHITE.\n\t\t\t\t|6: GRAY.\t\t\t|7: PURPLE.\n");
-    
+    printf("\033[1;31m"); printf("\n\n\t\t\t\t|0: RED."); printf("\033[1;32m"); printf("\t\t\t|1: GREEN.");
+    printf("\033[1;34m"); printf("\n\t\t\t\t|2: BLUE."); printf("\033[1;33m"); printf("\t\t\t|3: YELLOW.");
+    printf("\033[1;30m"); printf("\n\t\t\t\t|4: BLACK."); printf("\033[1;37m"); printf("\t\t\t|5: WHITE.");
+    printf("\033[1;35m"); printf("\n\t\t\t\t|6: PURPLE."); printf("\033[1;36m"); printf("\t\t\t|7: CYAN.\n");
+    printf("\033[0m");
     printf("\n\t* Please insert the %d numbers of the colors for the hidden combination:\n\n", NUM_PAWNS);
     enum color_t Num;
     for (int i = 0; i < NUM_PAWNS; i++) {
@@ -77,9 +79,12 @@ void generate_hidden_combination(enum color_t board[]) {
     // Function to read a proposed combination from the player..
 
 void read_proposed_combination(enum color_t board[]) {
-    printf("\n\t\t\t---------- *** The liste of numbers & colors *** ----------\n\n\t\t\t\t|0: RED.\t\t\t|1: GREEN.\n\
-    \t\t\t\t|2: BLUE.\t\t\t|3: YELLOW.\n\t\t\t\t|4: BLACK.\t\t\t|5: WHITE.\n\t\t\t\t|6: GRAY.\t\t\t|7: PURPLE.\n");
-    
+    printf("\033[1;31m"); printf("\n\n\t\t\t\t|0: RED."); printf("\033[1;32m"); printf("\t\t\t|1: GREEN.");
+    printf("\033[1;34m"); printf("\n\t\t\t\t|2: BLUE."); printf("\033[1;33m"); printf("\t\t\t|3: YELLOW.");
+    printf("\033[1;30m"); printf("\n\t\t\t\t|4: BLACK."); printf("\033[1;37m"); printf("\t\t\t|5: WHITE.");
+    printf("\033[1;35m"); printf("\n\t\t\t\t|6: PURPLE."); printf("\033[1;36m"); printf("\t\t\t|7: CYAN.\n");
+    printf("\033[0m");
+ 
     printf("\n\t* Please insert the %d numbers of the colors for your guess:\n\n", NUM_PAWNS);
     enum color_t Num;
     for (int i = 0; i < NUM_PAWNS; i++) {
@@ -91,7 +96,7 @@ void read_proposed_combination(enum color_t board[]) {
         }
         board[i] = Num;
     }
-    printf("\n\t\t\t   *******************************");
+    printf("\n\t\t\t\t\t \033[1;37m*******************************");
 }
 
     // Function to evaluate the proposed combination against the hidden combination..
@@ -125,30 +130,30 @@ void Game(enum color_t H_C[], enum color_t P_C[], int* NWPP, int* NMP) {
         evaluate_proposed_combination(H_C, P_C, NWPP, NMP);
         
         // Display feedback..
-        printf("\n\t\t|Well placed pawns: %i|\t ---\t" ,*NWPP);
-        printf("|Misplaced pawns: %i|\n" ,*NMP);
+        printf("\n\t\t\t   \033[1;33m|Well placed pawns: %i|\t ---\t" ,*NWPP);
+        printf("\033[1;31m |Misplaced pawns: %i| \033[1;37m\n" ,*NMP);
         if (*NWPP == NUM_PAWNS) {
-            printf("\n\t\t\t<< Awesome! YOU WON THE GAME >>\n\
-            \t\t\tYeah you got it...\n\n ** The hidden combinition was: \n");
+            printf("\n\t\t\t\t\t \033[1;32m<< Awesome! YOU WON THE GAME >>\n\
+            \n\t\t\t\t\t\t Yeah you got it...\n\n \033[1;30m** The hidden combinition was: \033[1;0m\n");
         
         // Display the hidden combinition..
         for (int i = 0; i < NUM_PAWNS; i++) {     
             printf("\t\t\t\t\t|%d: ", H_C[i]);
-            printf("%s.\n", colors[H_C[i]]);
+            printf("%s.\033[1;0m\n", colors[H_C[i]]);
         }
             return;
-        } else { printf("\n ** |%d| attempts left!!!\n", NUM_ATTEMPTS - i); }
+        } else { printf("\n\033[1;30m ** |%d| attempts left!!!\033[1;0m\n", NUM_ATTEMPTS - i); }
         i++;
         *NWPP = 0;
         *NMP = 0;
     }
     if (i == NUM_ATTEMPTS + 1) {
-        printf("\n\t\t>>  Oops!! YOU LOST THE GAME <<\n\
-        \t\tYou were imminent!\n\n ** This is the hidden combinition: \n");
+        printf("\n\t\t\t\t\t \033[1;31m>>  Oops!! YOU LOST THE GAME <<\n\
+        \n\t\t\t\t\t\t You were imminent!\n\n \033[1;30m** This is the hidden combinition: \033[1;0m\n");
         
         for (int i = 0; i < NUM_PAWNS; i++) {     
             printf("\t\t\t\t\t|%d: ", H_C[i]);
-            printf("%s.\n", colors[H_C[i]]);
+            printf("%s.\033[1;0m\n", colors[H_C[i]]);
         }
         return;
     }
