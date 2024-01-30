@@ -14,7 +14,7 @@
 #include <stdbool.h>
 #include <time.h>
 
-    // Definition of constants "pawns, colors, attempts" numbers..
+    // Definition of constants "length, size.."
 
 #define ALPHABET_SIZE 26
 #define MAX_WORD_LENGTH 8
